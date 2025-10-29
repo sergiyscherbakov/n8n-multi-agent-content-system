@@ -1,0 +1,227 @@
+{
+  "name": "LESSON-6",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "allowFileUploads": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "faeecd67-17f5-4c64-b374-b4a8e0678fa8",
+      "name": "When chat message received",
+      "webhookId": "45578ba9-1fa1-4395-b325-6ae778b0f264"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        192,
+        160
+      ],
+      "id": "f83f2728-321e-4595-bcfe-061946ac5ff7",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "nRdGQnh2BudisefU",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        544,
+        160
+      ],
+      "id": "636b62fc-302d-4093-89f0-83ff94ae6d4d",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "nRdGQnh2BudisefU",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        864,
+        192
+      ],
+      "id": "60d28291-ae16-49c2-89d2-f241133653fe",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "nRdGQnh2BudisefU",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Запускай цей інструмент тільки у випадку якщо користувачаю заніт користуватися як \"неШІ\"",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', `Отримує інформацію про тему і опис не пов'язану з ШІ`, 'string') }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "#### РОЛЬ \nТи професійний ШІ інженер в сфері впровадженя ШІ в бізнес. Ти вмієш на основі запиту користувача надавати рекомендації по впровадженню ШІ \n#### КОНТЕКСТ \nНа основі даних від користувача виконай ЗАПИТ \n#### ЗАПИТ \nВиконай наступні дії: \n●\tПроаналізуй запит Користувача на предмет використання ШІ в тій темі о він задав \n●\tНапиши 3 можливих кейсів застосування ШІ в темі що тобі надав користувач \n●\tВідповідь надай в форматі назви і опису кейсу застосування \n#### ОБМЕЖЕННЯ \nВідповідай українською мовою \nВикористовуй тільки кейси які повязані з темою запиту Користувача \n#### ФОРМАТ ВІДПОВІДІ \nВідповідь надай в форматі JSON згідно струкури яка знаходиться між тегами <STRUCT> \n<STRUCT> \n</STRUCT> \n \n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        -48
+      ],
+      "id": "25cdab83-a465-4ee3-88b4-335bbe0d9a59",
+      "name": "Other_topic"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Запускай цей інструмент тільки у випадку якщо користувачаю заніт користуватися як \"неШІ\"",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', `Отримує інформацію про тему і опис про ШІ`, 'string') }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('System_Message', ``, 'string') }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        0
+      ],
+      "id": "850548f7-63a2-4bdb-b374-9fb7750d214f",
+      "name": "AI_topic"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "#### РОЛЬ \nТи кваліфікований менеджер з 15 річним досвідом який вміє керувати командами з більше 10 людей. Ти вмієш: \n1.\tКласифікувати запит від користувача \n2.\tПравильно ставити задачі для агентських систем \n#### КОНТЕКСТ \nКористувач надаватиме тобі теми дописів на основі яких ти маєш виконати Запит. ЗАВЖДИ використовуй інструменти згідно класифікованого запиту \n#### ЗАПИТ \nВиконай наступні дії: \n1.\tКласифікуй запит користувача згідно двух тем: Запит пов'язаний з штучним інтелектом або Запит немає відношення до Штучного інтелекту. тільки одним словом «ШІ» або «неШІ» \n2.\tЯкщо класифікував запит користувача як «ШІ», то виконай інструкції які знаходяться між тегами \n<AI> і не виконуй інструкції які знаходяться між тегами <noAI> \n3.\tЯкщо класифікував запит користувача як «неШІ», то виконай інструкції які знаходяться між тегами \n<noAI> і не виконуй інструкції які знаходяться між тегами <AI>. Передай отриману відповідь від інструменту \n«Other_topic» на інструмент «AI_topic» \n4.\tНапиши допис в структурованову вигляді згідно відповіді, яку ти отримав від інструменту \n«AI_topic» на тему використання ШІ і формату відповіді, який знаходиться в розділі «ФОРМАТ ВІДПОВІДІ» #### ОБМЕЖЕННЯ \nЗавжди очікуй відповідь користувача. Якщо користувач не надав тобі тему, то запитай його. \nЯкщо користувач надав тобі тему, яка для тебе не є зрозумілою (просто набір цифр, набір букв, одне слово або схожі за цією логікою запити), то попроси користувача деталізувати \nВідповідь надай Українською мовою \nЯкщо ти не запустив і не отримав відповідь від інструменту \"AI_topic\" то обовязково запусти його і виконай ЗАПИТ \n#### ФОРМАТ ВІДПОВІДІ \nВідповідь надай згідно структури нижче \nТема: [тут тема статті] \nТекст: [тут текст статті] \n#### ДОДАТКОВА ІНФОРМАЦІЯ \n<AI> \nВиконай наступні дії: \n1.\tДеталізовано напиши тему і опис допису згідно Запиту користувача \n2.\tПередай цю тему та опис на інструмент «AI_topic» \n3.\tОтримай відповідь від інструменту і продовжуй виконувати дії згідно розділу ЗАПИТ \n</AI> \n<noAI> \nВиконай наступні дії: \n1.\tДеталізовано напиши тему і опис допису згідно Запиту користувача \n2.\tПередай цю тему та опис на інструмент «Other_topic» \n3.\tОтримай відповідь від інструменту «Генерація інших тем» \n4.\tПередай отриману відповідь від інструменту «Other_topic» на інструмент «AI_topic» \n5.\tОтримай відповідь від інструменту і продовжуй виконувати дії згідно розділу ЗАПИТ </noAI> \n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        -96
+      ],
+      "id": "4c2d5d73-7d97-4e3c-b4e8-918a3472b274",
+      "name": "AI Orkestrator"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Orkestrator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Orkestrator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Other_topic",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI_topic",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Other_topic": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Orkestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI_topic": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Orkestrator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ab997d01-530c-4a34-83ba-b1939f0ea196",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "88a22aed4098ad99fa92a6b4a24a4d325c924fb17d0a2cd284ecfde90139b05a"
+  },
+  "id": "QcLJzJ11XSozGQdi",
+  "tags": []
+}
